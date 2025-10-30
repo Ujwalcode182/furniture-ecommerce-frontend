@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Furniture } from '../lib/api';
 
 interface ImagePopupProps {
@@ -10,7 +10,7 @@ interface ImagePopupProps {
 export default function ImagePopup({ imageUrl, furniture, onClose }: ImagePopupProps) {
   const [hoveredEdge, setHoveredEdge] = useState<string | null>(null);
 
-  const edges = [
+  const edges: { name: 'top' | 'bottom' | 'left' | 'right'; dimension: string; style: CSSProperties }[] = [
     { name: 'top', dimension: `${furniture.height}cm`, style: { top: 0, left: '50%', transform: 'translateX(-50%)' } },
     { name: 'bottom', dimension: `${furniture.height}cm`, style: { bottom: 0, left: '50%', transform: 'translateX(-50%)' } },
     { name: 'left', dimension: `${furniture.width}cm`, style: { left: 0, top: '50%', transform: 'translateY(-50%)', writingMode: 'vertical-rl' } },

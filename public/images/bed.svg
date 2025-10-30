@@ -1,0 +1,11 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#ecfeff"/>
+  <g transform="translate(120,200)">
+    <rect x="0" y="100" width="560" height="120" rx="16" fill="#0ea5e9"/>
+    <rect x="0" y="0" width="160" height="120" rx="16" fill="#38bdf8"/>
+    <rect x="180" y="0" width="200" height="120" rx="16" fill="#7dd3fc"/>
+    <rect x="400" y="0" width="160" height="120" rx="16" fill="#bae6fd"/>
+  </g>
+  <text x="400" y="560" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#374151">Bed Frame (dummy)</text>
+</svg>
+

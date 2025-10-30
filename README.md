@@ -105,21 +105,7 @@ The frontend will be available at `http://localhost:3000`
 ## Project Structure
 
 ```
-Furniture/
-├── backend/          # NestJS backend
-│   ├── src/
-│   │   ├── furniture/    # Furniture module
-│   │   ├── order/        # Order module
-│   │   ├── review/       # Review module
-│   │   ├── user/         # User module
-│   │   └── migrations/    # Database migrations
-│   └── package.json
-├── frontend/         # Next.js frontend
-│   ├── pages/           # Next.js pages
-│   ├── components/      # React components
-│   ├── lib/             # API utilities
-│   └── package.json
-└── README.md
+
 ```
 
 ## API Endpoints

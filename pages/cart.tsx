@@ -31,6 +31,25 @@ export default function Cart() {
 
   const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const formatPrice = (value: unknown) => {
+    const num = typeof value === 'number' ? value : Number(value);
+    return isFinite(num) ? num.toFixed(2) : '0.00';
+  };
+
+  const getLocalImageFor = (item: any) => {
+    const furniture = item?.furniture;
+    const name = (furniture?.name || '').toLowerCase();
+    const category = (furniture?.category || '').toLowerCase();
+    const text = `${name} ${category}`.trim();
+    if (!text) return '/images/placeholder.svg';
+    if (text.includes('sofa') || text.includes('couch')) return '/images/sofa.svg';
+    if (text.includes('chair')) return '/images/chair.svg';
+    if (text.includes('coffee') && text.includes('table')) return '/images/coffee-table.svg';
+    if (text.includes('table')) return '/images/table.svg';
+    if (text.includes('bed')) return '/images/bed.svg';
+    return '/images/placeholder.svg';
+  };
+
   const handleCheckout = async () => {
     try {
       const orderData = {
@@ -91,16 +110,29 @@ export default function Cart() {
               {cart.map((item) => (
                 <div key={item.furnitureId} className="flex border-b pb-4 mb-4">
                   <div className="relative w-32 h-32 mr-4">
-                    <Image
-                      src={item.furniture.images[0] || '/placeholder.jpg'}
-                      alt={item.furniture.name}
-                      fill
-                      className="object-cover rounded"
-                    />
+                    {(() => {
+                      const imgSrc = getLocalImageFor(item);
+                      const isPlaceholder = imgSrc.endsWith('/placeholder.svg');
+                      return (
+                        <>
+                          <Image
+                            src={imgSrc}
+                            alt={item?.furniture?.name || 'Item'}
+                            fill
+                            className="object-cover rounded"
+                          />
+                          {isPlaceholder && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-500 text-xs rounded">
+                              No image
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg">{item.furniture.name}</h3>
-                    <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                    <h3 className="font-semibold text-lg">{item?.furniture?.name || 'Item'}</h3>
+                    <p className="text-gray-600">${formatPrice(item.price)}</p>
                     <div className="flex items-center mt-2">
                       <label className="mr-2">Quantity:</label>
                       <input

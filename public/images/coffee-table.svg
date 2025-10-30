@@ -1,0 +1,10 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f1f5f9"/>
+  <g transform="translate(150,260)">
+    <rect x="0" y="0" width="500" height="60" rx="12" fill="#dc2626"/>
+    <rect x="20" y="60" width="20" height="80" rx="6" fill="#991b1b"/>
+    <rect x="460" y="60" width="20" height="80" rx="6" fill="#991b1b"/>
+  </g>
+  <text x="400" y="560" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#374151">Coffee Table (dummy)</text>
+</svg>
+

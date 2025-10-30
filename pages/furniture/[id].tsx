@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { furnitureApi, Furniture, reviewApi, Review } from '../lib/api';
+import { furnitureApi, Furniture, reviewApi, Review } from '../../lib/api';
 import Image from 'next/image';
-import ImagePopup from '../components/ImagePopup';
-import ReviewForm from '../components/ReviewForm';
+import ImagePopup from '../../components/ImagePopup';
+import ReviewForm from '../../components/ReviewForm';
 
 export default function FurnitureDetail() {
   const router = useRouter();
@@ -70,6 +70,23 @@ export default function FurnitureDetail() {
     return <div className="flex justify-center items-center min-h-screen">Furniture not found</div>;
   }
 
+  const formatPrice = (value: unknown) => {
+    const num = typeof value === 'number' ? value : Number(value);
+    return isFinite(num) ? num.toFixed(2) : '0.00';
+  };
+
+  const getLocalImageFor = (item: Pick<Furniture, 'name' | 'category'>) => {
+    const text = `${item.name} ${item.category}`.toLowerCase();
+    if (text.includes('sofa') || text.includes('couch')) return '/images/sofa.svg';
+    if (text.includes('chair')) return '/images/chair.svg';
+    if (text.includes('coffee') && text.includes('table')) return '/images/coffee-table.svg';
+    if (text.includes('table')) return '/images/table.svg';
+    if (text.includes('bed')) return '/images/bed.svg';
+    return '/images/placeholder.svg';
+  };
+
+  const mainImage = getLocalImageFor(furniture);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-md">
@@ -98,34 +115,19 @@ export default function FurnitureDetail() {
             <div>
               <div className="relative h-96 w-full mb-4">
                 <Image
-                  src={furniture.images[0] || '/placeholder.jpg'}
+                  src={mainImage}
                   alt={furniture.name}
                   fill
                   className="object-cover rounded-lg cursor-pointer"
-                  onClick={() => setSelectedImage(furniture.images[0])}
+                  onClick={() => setSelectedImage(mainImage)}
                 />
               </div>
-              {furniture.images.length > 1 && (
-                <div className="grid grid-cols-4 gap-2">
-                  {furniture.images.slice(1).map((img, idx) => (
-                    <div key={idx} className="relative h-20 w-full">
-                      <Image
-                        src={img}
-                        alt={`${furniture.name} ${idx + 2}`}
-                        fill
-                        className="object-cover rounded cursor-pointer"
-                        onClick={() => setSelectedImage(img)}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
 
             <div>
               <h2 className="text-3xl font-bold mb-4">{furniture.name}</h2>
               <p className="text-2xl font-semibold text-blue-600 mb-4">
-                ${furniture.price.toFixed(2)}
+                ${formatPrice(furniture.price)}
               </p>
               <p className="text-gray-600 mb-6">{furniture.description}</p>
 

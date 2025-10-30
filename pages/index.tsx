@@ -38,6 +38,21 @@ export default function Home() {
     return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
   }
 
+  const formatPrice = (value: unknown) => {
+    const num = typeof value === 'number' ? value : Number(value);
+    return isFinite(num) ? num.toFixed(2) : '0.00';
+  };
+
+  const getLocalImageFor = (item: Pick<Furniture, 'name' | 'category'>) => {
+    const text = `${item.name} ${item.category}`.toLowerCase();
+    if (text.includes('sofa') || text.includes('couch')) return '/images/sofa.svg';
+    if (text.includes('chair')) return '/images/chair.svg';
+    if (text.includes('coffee') && text.includes('table')) return '/images/coffee-table.svg';
+    if (text.includes('table')) return '/images/table.svg';
+    if (text.includes('bed')) return '/images/bed.svg';
+    return '/images/placeholder.svg';
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-md">
@@ -62,16 +77,29 @@ export default function Home() {
                 <Link key={item.id} href={`/furniture/${item.id}`}>
                   <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
                     <div className="relative h-48 w-full">
-                      <Image
-                        src={item.images[0] || '/placeholder.jpg'}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                      />
+                      {(() => {
+                        const imgSrc = getLocalImageFor(item);
+                        const isPlaceholder = imgSrc.endsWith('/placeholder.svg');
+                        return (
+                          <>
+                            <Image
+                              src={imgSrc}
+                              alt={item.name}
+                              fill
+                              className="object-cover"
+                            />
+                            {isPlaceholder && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-500 text-sm">
+                                No image
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold text-lg mb-2">{item.name}</h3>
-                      <p className="text-gray-600 mb-2">${item.price.toFixed(2)}</p>
+                      <p className="text-gray-600 mb-2">${formatPrice(item.price)}</p>
                       <p className="text-sm text-gray-500">{item.category}</p>
                     </div>
                   </div>
@@ -88,16 +116,29 @@ export default function Home() {
               <Link key={item.id} href={`/furniture/${item.id}`}>
                 <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
                   <div className="relative h-48 w-full">
-                    <Image
-                      src={item.images[0] || '/placeholder.jpg'}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                    />
+                    {(() => {
+                      const imgSrc = getLocalImageFor(item);
+                      const isPlaceholder = imgSrc.endsWith('/placeholder.svg');
+                      return (
+                        <>
+                          <Image
+                            src={imgSrc}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                          />
+                          {isPlaceholder && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-500 text-sm">
+                              No image
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-lg mb-2">{item.name}</h3>
-                    <p className="text-gray-600 mb-2">${item.price.toFixed(2)}</p>
+                    <p className="text-gray-600 mb-2">${formatPrice(item.price)}</p>
                     <p className="text-sm text-gray-500">{item.category}</p>
                   </div>
                 </div>
